@@ -1,0 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* 游戏页面 */
+
+#flopGame {
+    width: 600px;
+    height: 600px;
+    /* 页面居中 */
+    margin: 60px auto;
+}
