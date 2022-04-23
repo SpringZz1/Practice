@@ -20,9 +20,8 @@ async function getRandomUser() {
 
     const newUser = {
         name: `${user.name.first} ${user.name.last}`,
-        money: Math.floor(Math.random() * 1000000)
+        money: Math.floor(Math.random() * 10000000)
     };
-
     addData(newUser);
 }
 
@@ -44,7 +43,7 @@ function sortByRichest() {
 }
 
 // Filter only millionaires
-function showMillionaires() {
+f unction showMillionaires() {
     data = data.filter(user => user.money > 1000000);
 
     updateDOM();
