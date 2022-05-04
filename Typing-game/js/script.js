@@ -1,17 +1,34 @@
 const word = document.getElementById('word');
-const text = document.getElementById('text');
-const scoreEl = document.getElementById('score');
-const timeEl = document.getElementById('time');
-const endgameEl = document.getElementById('end-game-container');
 const settingsBtn = document.getElementById('settings-btn');
+const text = document.getElementById('text');
+const timeEl = document.getElementById('time');
+const scoreEl = document.getElementById('score');
+const endGameEl = document.getElementById('end-game-container');
 const settings = document.getElementById('settings');
 const settingsForm = document.getElementById('settings-form');
-const difficultySelect = document.getElementById('difficulty');
+const difficultySelect = document.getElementById('end-game-container');
 
-// List of wods for game
-const words = ['sigh', 'tense', 'airplane', 'ball', 'pies', 'juice', 'warlike', 'bad',
-    'north', 'dependent', 'steer', 'silver', 'highfalutin', 'superficial', 'quince',
-    'eight', 'feeble', 'admit', 'drag', 'loving'
+// List of words
+const words = ['sigh',
+    'tense',
+    'airplane',
+    'ball',
+    'pies',
+    'juice',
+    'warlike',
+    'bad',
+    'north',
+    'dependent',
+    'steer',
+    'silver',
+    'highfalutin',
+    'superficial',
+    'quince',
+    'eight',
+    'feeble',
+    'admit',
+    'drag',
+    'loving'
 ];
 
 // Init word
@@ -23,7 +40,7 @@ let score = 0;
 // Init time
 let time = 10;
 
-// Set difficulty to value in ls or medium
+// Set difficulty to value  in ls or media`
 let difficulty =
     localStorage.getItem('difficulty') !== null ?
     localStorage.getItem('difficulty') :
@@ -32,9 +49,10 @@ let difficulty =
 // Set difficulty select value
 difficultySelect.value =
     localStorage.getItem('difficulty') !== null ?
-    localStorage.getItem('difficulty') : 'medium';
+    localStorage.getItem('diffuiculty') :
+    'medium';
 
-// Focus  on text on statr
+// Focus on text on start
 text.focus();
 
 // Start counting down
@@ -50,7 +68,7 @@ function getRandomWord() {
 /**
  * Add word to DOM
  */
-function addWordDOM() {
+function addWordDom() {
     randomWord = getRandomWord();
     word.innerHTML = randomWord;
 }
@@ -72,34 +90,33 @@ function updateTime() {
 
     if (time === 0) {
         clearInterval(timeInterval);
-        // end game
+
+        // Game over
         gameOver();
     }
 }
 
 /**
- * Game over, show end scren
+ * Game over, show end screnn
  */
 function gameOver() {
-    endgameEl.innerHTML = `
-    <h1>Time ran out</h1>
+    endGameEl.innerHTML = `<h1>Time ran out</h1>
     <p>Your final score is ${score}</p>
-    <button onclick="location.reload()">Reload</button>
-  `;
+    <button onclick="location.reload()">Reload</button>`;
 
-    endgameEl.style.display = 'flex';
+    endGameEl.style.display = 'flex';
 }
 
-addWordDOM();
+addWordDom();
 
-// Event listener
+// Event listeners
 
 // Typing
 text.addEventListener('input', e => {
     const insertedText = e.target.value;
 
     if (insertedText === randomWord) {
-        addWordDOM();
+        addWordDom();
         updateScore();
 
         // Clear
@@ -112,6 +129,7 @@ text.addEventListener('input', e => {
         } else {
             time += 5;
         }
+
         updateTime();
     }
 });
@@ -119,7 +137,7 @@ text.addEventListener('input', e => {
 // Setting btn click
 settingsBtn.addEventListener('click', () => settings.classList.toggle('hide'));
 
-// Setting select
+// Settings select
 settingsForm.addEventListener('change', e => {
     difficulty = e.target.value;
     localStorage.setItem('difficulty', difficulty);
