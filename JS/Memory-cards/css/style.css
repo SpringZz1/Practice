@@ -7,10 +7,16 @@ body {
     background-color: #fff;
     display: flex;
     flex-direction: column;
+<<<<<<< HEAD
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+=======
     align-items: center;
     justify-content: center;
     height: 100vh;
     margin: 0;
+>>>>>>> acef3b220e8ea026c990dcab4c094cc3c5c096a0
     overflow: hidden;
     font-family: 'Lato', sans-serif;
 }
@@ -38,7 +44,11 @@ h1 button {
 
 .btn-small {
     font-size: 12px;
+<<<<<<< HEAD
+    padding: 5px 12px;
+=======
     padding: 5px 10px;
+>>>>>>> acef3b220e8ea026c990dcab4c094cc3c5c096a0
 }
 
 .btn-ghost {
@@ -72,11 +82,19 @@ h1 button {
     transition: transform 0.4s ease, opacity 0.4s ease;
 }
 
+<<<<<<< HEAD
+.card.actice {
+    cursor: pointer;
+    opacity: 1;
+    z-index: 10;
+    transform: translateX(0), rotateY(0deg);
+=======
 .card.active {
     cursor: pointer;
     opacity: 1;
     z-index: 10;
     transform: translateX(0) rotateY(0deg);
+>>>>>>> acef3b220e8ea026c990dcab4c094cc3c5c096a0
 }
 
 .card.left {
@@ -122,7 +140,11 @@ h1 button {
 
 .inner-card-front::after,
 .inner-card-back::after {
+<<<<<<< HEAD
+    content: '\f201 Flip';
+=======
     content: '\f021  Flip';
+>>>>>>> acef3b220e8ea026c990dcab4c094cc3c5c096a0
     font-family: 'Font Awesome 5 Free', Lato, sans-serif;
     position: absolute;
     top: 10px;
@@ -135,6 +157,8 @@ h1 button {
 .navigation {
     display: flex;
     margin: 20px 0;
+<<<<<<< HEAD
+=======
 }
 
 .navigation .nav-button {
@@ -186,4 +210,5 @@ h1 button {
     padding: 12px;
     min-width: 500px;
     max-width: 100%;
+>>>>>>> acef3b220e8ea026c990dcab4c094cc3c5c096a0
 }
