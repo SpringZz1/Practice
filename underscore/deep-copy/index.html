@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 如果是数组对象，则可以使用slice、concat返回数组拷贝
+        var arr = ['old', 1, true, null, undefined];
+
+        var new_arr = arr.concat();
+
+        new_arr[0] = 'new';
+
+        console.log(arr); // ['old',1,true,null,undefined]
+        consolel.log(new_arr); // ['old',1,true,null,undefined]
+
+        // 使用slice
+        var new_arr = arr.slice();
+
+        // 这么做有个问题，如果数组中是嵌套的数组或者嵌套对象的话
+        // 无论是新数组还是旧数组都发生了变化，也就是说，使用concat方法，克隆的并不彻底
+        // 可以说slice和concat是一种浅拷贝
+        var arr = [{
+                old: 'old'
+            },
+            ['old']
+        ];
+
+        var new_arr = arr.concat();
+        arr[0].old = 'new';
+        arr[1][0] = 'new';
+
+        console.log(arr); // [{old: 'new'},['new']]
+        console.log(new_arr); // [{old:'new'},['new']]
+
+        // 那么如何深拷贝一个数组呢？这里使用一个技巧，不仅适用于数组而且还是用于对象
+        var arr = ['old', 1, true, ['old1', 'old2'], {
+            old: 1
+        }];
+
+        var new_arr = JSON.parse(JSON.stringify(arr));
+        console.log(new_arr);
+
+        // 但是上述问题存在一个缺点，那就是没办法拷贝函数
+        var arr = [function() {
+            console.log(a);
+        }, {
+            b: function() {
+                console.log(b);
+            }
+        }]
+
+        var new_arr = JSON.parse(JSON.stringify(arr));
+
+        console.log(new_arr);
+
+        // 如何实现对象或者数组的浅拷贝
+        var shallowCopy = function(obj) {
+            // 只拷贝对象
+            if (typeof obj !== 'object') return;
+            // 根据obj的类型判断是新建一个数组还是对象
+            var newObj = obj instanceof Array ? [] : {};
+            // 遍历obj，并且判断是obj的属性才拷贝
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    newObj[key] = obj[key];
+                }
+            }
+            return newObj;
+        }
+
+        // 如何实现一个深拷贝呢
+        var deepCopy = function(obj) {
+            if (typeof obj !== 'object') return;
+            var newObj = obj instanceof Array ? [] : {};
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    newObj[key] = typeof obj[key] === 'object' ? deepCopy(obj[key]) : obj[key];
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 兼容性最好的数组去重
+        var array = [1, 1, '1', '1'];
+
+        function unique(array) {
+            // res保存结果
+            var res = [];
+
+            for (var i = 0; i < array.length; i++) {
+                for (var j = 0; j < res.length; j++) {
+                    if (array[i] === res[j]) {
+                        break;
+                    }
+                }
+                // 如果array[i]是唯一的，那么执行完循环，j等于res.lengh
+                if (j === res.length) {
+                    res.push(array[i]);
+                }
+            }
+            return res;
+        }
+
+        console.log(unique(array)); // [1,'1']
+
+        // indexOf优化
+        var array = [1, 1, '1', '1'];
+
+        function unique(array) {
+            // res保存结果
+            var res = [];
+
+            for (var i = 0; i < array.length; i++) {
+                if (res.indexOf(array[i]) === -1) {
+                    res.push(array[i]);
+                }
+            }
+            return res;
+        }
+
+        console.log(unique(array));
+
+        // 排序后去重
+        var array = [1, 1, '1'];
+
+        function unique(array) {
+            var res = [];
+            var sorttedArray = array.concat().sort();
+            var seen;
+            for (var i = 0; i < sorttedArray.length; i++) {
+                // 如果是第一个元素或相邻的元素不相同
+                if (!i || seen !== sorttedArray[i]) {
+                    res.push(sorttedArray[i]);
+                }
+                seen = sorttedArray[i];
+            }
+            return res;
+        }
+
+        // unique API，将两种方法整合在一起
+        var array1 = [1, 2, '1', 2, 1];
+        var array2 = [1, 1, '1', 2, 2];
+
+        // 第一版
+        function unique(array, isSorted) {
+            var res = [];
+            var seen = [];
+
+            for (var i = 0, len = array.length; i < len; i++) {
+                var value = array[i];
+                if (isSorted) {
+                    if (!i || seen !== value) {
+                        res.push(value);
+                    }
+                    seen = value;
+                } else if (res.indexOf(value) === -1) {
+                    res.push(value);
+                }
+            }
+            return res;
+        }
+
+        // 第二版，将带小视是为一致，比如将所有的小写字母转换成小写
+        var array3 = [1, 1, 'a', 'A', 2, 2];
+
+        function unique(array, isSorted, iteratee) {
+            var res = [];
+            var seen = [];
+
+            for (var i = 0, len = array.length; i < len; i++) {
+                var value = array[i];
+                var computed = iteratee ? iteratee(value, i, array) : value;
+                if (isSorted) {
+                    if (!i || seen !== computed) {
+                        res.push(value);
+                    }
+                    seen = computed;
+                } else if (iteratee) {
+                    if (seen.indexOf(computed) === -1) {
+                        seen.push(computed);
+                        res.push(value);
+                    }
+                } else if (res.indexOf(value) === -1) {
+                    res.push(value);
+                }
+            }
+            return res;
+        }
+
+        // 使用filter来简化外层循环
+        var array = [1, 2, 1, 1, '1'];
+
+        function unique(array) {
+            var res = array.filter(function(item, index, array) {
+                return array.indexOf(item) === index;
+            })
+            return res;
+        }
+
+        // 排序去重方法
+        var array = [1, 2, 1, 1, '1'];
+
+        function unique(array) {
+            return array.concat().sort().filter(function(item, index, array) {
+                return !index || item !== array[index - 1];
+            })
+        }
+    </script>
+</body>
+
+</html>
+
+</html>

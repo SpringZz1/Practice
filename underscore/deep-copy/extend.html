@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 从零开始模仿JQeury的extend功能，extend函数主要是实现目标的复制
+        // 第一版
+        function extend() {
+            var name, options, copy;
+            var length = arguments.length;
+            var i = 1;
+            var target = arguments[0];
+
+            for (; i < length; i++) {
+                options = arguments[i];
+                if (options != null) {
+                    copy = options[name];
+                    if (copy !== undefined) {
+                        target[name] = copy;
+                    }
+                }
+            }
+            return target;
+        };
+
+        // 第一版只实现了浅拷贝，要实现深拷贝要在函数添加一个形参用来决定是否启用深拷贝
+        // 第二版
+        function extend() {
+            // 默认不进行深拷贝
+            var deep = false;
+            var name, options, src, copy;
+            var length = arguments.length;
+            // 记录要复制的对象的下标
+            var i = 1;
+            // 第一个参数不传布尔值的情况下，target默认是第一个参数
+            var target = arguments[0] || {};
+            // 如果第一个参数是布尔值，第二个参数才是target
+            if (typeof target == 'boolean') {
+                deep = target;
+                target = arguments[1] || {};
+                i++;
+            }
+            // 如果target不是对象，我们是无法进行复制的，所以设为{}
+            if (typeof target !== 'object') {
+                target = {};
+            }
+
+            // 遍历循环要复制的对象们
+            for (; i < length; i++) {
+                // 获取当前对象
+                options = arguments[i];
+                // 要求不能为空，避免extend(a,b)这种情况
+                if (options != null) {
+                    for (name in options) {
+                        // 目标属性值
+                        src = target[name];
+                        // 要复制的对象的属性值
+                        copy = options[name];
+
+                        if (deep && copy && typeof copy == 'object') {
+                            // 递归调用
+                            target[name] = extend(deep, src, copy);
+                        } else if (copy !== undefined) {
+                            target[name] = copy;
+                        }
+                    }
+                }
+            }
+            return target;
+        }
+    </script>
+</body>
+
+</html>

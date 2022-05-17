@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 写一个type函数，能够判断各种类型的值，如果是基本类型则使用typeof，否则使用tiString
+        // 第一版
+        var class2type = {};
+
+        // 生成class2typ映射
+        "Boolean Number String Function Array Date RegExp Object Error Null Undefined".split(" ").map(function(item, index) {
+            class2type["[object " + item + "]"] = item.toLowerCase();
+        })
+
+        function type(obj) {
+            return typeof obj === 'object' || typeof obj === 'function' ?
+                class2type[Object.prototype.toString.call(obj)] || 'object' :
+                typeof obj;
+        }
+
+        // 在ES6中，null和undefined会被Object.prototype.toString识别成[object Object]
+        //这里就存在一个兼容性问题
+        // 第二版
+        var class2type = {};
+
+        // 生成class2type映射
+        "Boolean Number String Function Array Date RegExp Object Error".split(" ").map(function(item, index) {
+            class2type["[object " + item + "]"] = item.toLowerCase();
+        })
+
+        function type(obj) {
+            // 一箭双雕
+            if (obj == null) {
+                return obj + '';
+            }
+            return typeof obj === 'obj' || typeof obj === 'function' ?
+                class2type[Object.prototype.toString.call(obj)] || 'obj' :
+                typeof obj;
+        }
+
+        // 封装
+        function isFunction(obj) {
+            return type(obj) === 'function';
+        }
+
+        // 判断数组类型，使用Array.isArray，如果存在就使用这个方法，否则使用type函数
+        var isArray = Array.isArray || function(obj) {
+            return type(obj) === 'array';
+        }
+    </script>
+</body>
+
+</html>
