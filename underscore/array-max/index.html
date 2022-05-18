@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 如何实现求取数组中的最大最小值
+        // 1. Math.max、Math.min
+        // 缺点就是遇到无法转换为Number类型的就会返回NaN
+        // 如果没有参数则会返回-infinity
+        Math.max(true, 0); // 1
+        Math.max(true, '2', null); // 2
+        Math.max(1, undefined); // NaN
+
+        // 2. 原始方法，遍历数组
+        var arr = [6, 4, 1, 8, 2, 11, 23];
+
+        var result = arr[0];
+        for (var i = 0; i < arr.length; i++) {
+            result = Math.max(result, arr[i]);
+        }
+        console.log(result);
+
+        // 3. reduce方法
+        var arr = [6, 4, 1, 8, 2, 11, 23];
+
+        function max(prev, next) {
+            return Math.max(prev, next);
+        }
+        console.log(arr.reduce(max));
+
+        // 4. 排序
+        var arr = [6, 4, 1, 8, 2, 11, 23];
+
+        arr.sort(function(a, b) {
+            return a - b;
+        });
+        console.log(arr[arr.length - 1]);
+
+        // 5. eval
+        var arr = [6, 4, 1, 8, 2, 11, 23];
+
+        var max = eval('Math.max(' + arr + ')');
+        console.log(max);
+
+        // 6. apply
+        var arr = [6, 4, 1, 8, 2, 11, 23];
+        console.log(Math.max.apply(null, arr));
+
+        // 7. ES6的拓展运算符
+        var arr = [6, 4, 1, 8, 2, 11, 23];
+        console.log(Math.max(...arr));
+    </script>
+</body>
+
+</html>

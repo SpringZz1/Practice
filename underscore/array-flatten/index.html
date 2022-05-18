@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 要是先数组的扁平化
+        // 1. 递归
+        var arr = [1, [2, [3, 4]]];
+
+        function flatten(arr) {
+            var result = [];
+            for (var i = 0; i < arr.length; i++) {
+                // 如果是数组则递归调用
+                if (Array.isArray(arr[i])) {
+                    result = result.concat(flatten(arr[i]));
+                } else {
+                    result.push(arr[i]);
+                }
+            }
+            return result;
+        }
+
+        // 如果数组的元素都是数字，那么可以考虑toString方法
+        // 因为[1, [2, [3, 4]]].toString() //"1,2,3,4"，这样使用split就能分开
+        // 2. toString方法
+        var arr = [1, [2, [3, 4]]];
+
+        function flatten(arr) {
+            return arr.toString().split(',').map(function(item) {
+                return +item;
+            })
+        }
+
+        // 使用reduce来简化代码
+        // 3. reduce
+        var arr = [1, [2, [3, 4]]];
+
+        function flatten(arr) {
+            return arr.reduce(function(prev, next) {
+                return prev.concat(Array.isArray(next) ? flatten(next) : next)
+            }, [])
+        }
+
+        // 使用ES6的...运算符来扁平数组，一次扁平一层
+        // 4. ...运算符
+        var arr = [1, [2, [3, 4]]];
+
+        function flatten(arr) {
+
+            while (arr.some(item => Array.isArray(item))) {
+                arr = [].concat(...arr);
+            }
+        }
+
+        /**
+         * 数组扁平化
+         * @param  {Array} input   要处理的数组
+         * @param  {boolean} shallow 是否只扁平一层
+         * @param  {boolean} strict  是否严格处理元素，下面有解释
+         * @param  {Array} output  这是为了方便递归而传递的参数
+         */
+
+        function flatten(input, shadow, strict, output) {
+
+            // 递归使用的时候会用到的output
+            output = output || [];
+            var idx = output.length;
+
+            for (var i = 0, len = input.length; i < len; i++) {
+
+                var value = input[i];
+                // 如果是数组，就进行处理
+                if (Array.isArray(value)) {
+                    // 如果只扁平一层，遍历该数组，一次进入output
+                    if (shadow) {
+                        var j = 0;
+                        var length = value.length;
+                        while (j < length) output[idx++] = value[j++];
+                    }
+                    // 如果是全部扁平则递归，传入已经处理的output，递归中接着处理output
+                    else {
+                        flatten(value, shadow, strict, output);
+                        idx = output.length;
+                    }
+                }
+                // 不是数组，根据strict的值来判断是跳过不处理还是放入output
+                else if (!strict) {
+                    output[idx++] = value;
+                }
+            }
+            return output;
+        }
+    </script>
+</body>
+
+</html>

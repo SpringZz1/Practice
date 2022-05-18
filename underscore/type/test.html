@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var class2type = {};
+
+        // 生成class2type映射
+        'Boolean Number String Function Array Date RegExp Object Error'.split(' ').map((item, index) => {
+            class2type['[object' + item + ']'] = item.toLowerCase();
+        })
+
+        function type(obj) {
+            // 处理null类型、兼容IE6
+            if (obj == null) {
+                return obj + '';
+            }
+            return typeof obj === 'function' || obj === 'object' ?
+                class2type[Object.prototype.toString.call(obj)] || 'object' :
+                typeof obj;
+        }
+
+        function isFunction(obj) {
+            return type(obj) === 'function'
+        }
+    </script>
+</body>
+
+</html>
