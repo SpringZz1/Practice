@@ -1,7 +1,9 @@
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-
+const HtmlwebpackPlugin = require('html-webpack-plugin')
+const { DefinePlugin } = require('webpack')
 module.exports = {
+    mode: 'development',
     entry: './src/index.js',
     output: {
         filename: 'main.js',
@@ -68,6 +70,13 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new HtmlwebpackPlugin({
+            title: 'html-webpack-plugin',
+            template: 'public/index.html'
+        }),
+        new DefinePlugin({
+            BASE_URL: '"./"' // 这样才会打包输出"./"
+        })
     ]
 }
