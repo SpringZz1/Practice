@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 模仿JQuery实现foreach
+        // 第一版
+        function each(obj, callback) {
+            var length, i = 0;
+
+            // 如果是数组类型，则访问下标
+            if (isArrayLike(obj)) {
+                length = obj.length;
+                for (; i < length; i++) {
+                    // 原始callback，调用函数
+                    // callback(i, obj[i]);
+
+                    // 添加中断功能
+                    // if (callback(i, obj[i] === false)) {
+                    //     break;
+                    // }
+
+                    // 我们希望this能够指定当前遍历元素
+                    if (callback.call(obj[i], i, obj[i]) === false) {
+                        break;
+                    }
+                }
+            }
+            // 如果是object类型，则用for in 访问
+            else {
+                for (i in obj) {
+                    // 原始callback，调用函数
+                    // callback(i, obj[i]);
+
+                    // 添加中断功能
+                    if (callback(i, obj[i] === false)) {
+                        break;
+                    }
+
+                    // 我们希望this能够指定当前遍历元素
+                    if (callback.call(obj[i], i, obj[i]) === false) {
+                        break;
+                    }
+                }
+            }
+            return obj;
+        }
+
+        // 最终版
+        function each(obj, callback) {
+            var length, i = 0;
+
+            if (isArrayLike(obj)) {
+                length = obj.length;
+                for (; i < length; i++) {
+                    if (callback.call(obj[i], i, obj[i]) === false) {
+                        break;
+                    }
+                }
+            } else {
+                for (i in obj) {
+                    if (callback.call(obj[i], i, obj[i]) === false) {
+                        break;
+                    }
+                }
+            }
+            return obj;
+        }
+    </script>
+</body>
+
+</html>
